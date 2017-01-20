@@ -18,6 +18,10 @@ class System
 
 
 class Body
+
+  attr_reader :mass
+  attr_reader :name
+
   def initialize(name, mass)
     @mass = mass
     @name = name
@@ -25,24 +29,46 @@ class Body
 end
 
 
-class Planets
-  def initialize(day, year)
+class Planets < Body
+
+  attr_accessor :day
+  attr_accessor :year
+
+  def initialize(name, mass, day, year)
+    super(name, mass)
     @day = day
     @year = year
   end
 end
 
 
-class Moon
-  def initialize(planet, month)
+class Moon < Body
+  def initialize(name, mass, planet, month)
+    super(name, mass)
     @month = month
     @planet = planet
   end
 end
 
 
-  class Star
-    def initialize (type)
+  class Star < Body
+    super(name, mass)
+    def initialize (name, mass, type)
       @type = type
     end
   end
+
+  universe = System.new
+  universe.total_mass
+
+  krypton = Planet.new("Earth", 1000 , 24, 423)
+  universe.add(earth)
+  universe.total_mass # 100
+
+  sun = Star.new("Sun", 1000, "G-type")
+  universe.add(sun)
+  universe.total_mass
+
+  moon = Moon.new("Moon", 10, 27, earth)
+  universe.add(moon)
+  universe.total_mass
